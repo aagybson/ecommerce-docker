@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>E-Commerce</title>
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --table-bg: #ffffff;
+      --border: #cccccc;
+      --header-bg: #f4f4f4;
+    }
+
+    body.dark {
+      --bg: #121212;
+      --text: #e0e0e0;
+      --table-bg: #1e1e1e;
+      --border: #444;
+      --header-bg: #2a2a2a;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    button {
+      margin-bottom: 15px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 70%;
+      background-color: var(--table-bg);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--header-bg);
+    }
+
+    /* Loading Spinner */
+    #loader {
+      border: 6px solid #ccc;
+      border-top: 6px solid #007bff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px 0;
+      display: none;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    #error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Products</h1>
+
+<button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+<div id="loader"></div>
+<div id="error"></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Price ($)</th>
+    </tr>
+  </thead>
+  <tbody id="products"></tbody>
+</table>
+
+<script>
+const loader = document.getElementById("loader");
+const errorDiv = document.getElementById("error");
+const tbody = document.getElementById("products");
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+}
+
+loader.style.display = "block";
+
+fetch("/api/products")
+  .then(res => {
+    if (!res.ok) throw new Error("API request failed");
+    return res.json();
+  })
+  .then(data => {
+    loader.style.display = "none";
+
+    data.forEach(p => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${p.id}</td>
+        <td>${p.name}</td>
+        <td>${p.category}</td>
+        <td>$${p.price}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  })
+  .catch(err => {
+    loader.style.display = "none";
+    errorDiv.innerText = "Failed to load products.";
+    console.error(err);
+  });
+</script>
+
+</body>
+</html>

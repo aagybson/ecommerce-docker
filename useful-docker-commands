@@ -1,0 +1,38 @@
+Useful Docker Commands for this project.
+
+cd ecommerce-docker
+ls
+docker-compose ps
+docker-compose up -d --build
+docker-compose ps
+docker-compose images
+docker-compose down stop
+ls
+docker-compose ps
+docker-compose start
+docker-compose ps
+docker ps
+docker inspect <container_id> | grep -A Healthcheck
+exit
+
+docker exec -it postgres psql -U admin ecommerce
+docker exec -it ecommerce-docker_api-gateway_1 ping product-service
+docker exec -it ecommerce-docker_api-gateway_1 ping api-gateway
+docker exec -it ecommerce-docker_api-gateway_1 ping frontend
+docker exec -it ecommerce-docker_api-gateway_1 ping redis 
+
+docker exec -it ecommerce-docker_redis_1 ping redis-cli
+docker exec -it ecommerce-docker_redis_1 ping product-service
+docker exec -it ecommerce-docker_redis_1 ping api-gateway
+docker exec -it ecommerce-docker_redis_1 ping frontend
+
+docker network ls
+docker network inspect ecommerce-docker_ecommerce-net
+docker port <container>
+docker-compose config
+
+docker-compose up -d --scale product-service=3 (to replicate containers)
+
+top
+
+docker-compose ps && docker-compose logs -f --tail=50

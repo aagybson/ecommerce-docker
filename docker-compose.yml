@@ -1,0 +1,76 @@
+version: "3.9"
+
+networks:
+  ecommerce-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+
+services:
+  postgres:
+    build: ./database
+    container_name: postgres
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ecommerce-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
+      interval: 10s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+    networks:
+      - ecommerce-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 5
+
+  product-service:
+    build: ./product-service
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - ecommerce-net
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
+      interval: 10s
+      retries: 5
+
+  api-gateway:
+    build: ./api-gateway
+    env_file: .env
+    depends_on:
+      product-service:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    networks:
+      - ecommerce-net
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      api-gateway:
+        condition: service_started
+    ports:
+      - "80:80"
+    networks:
+      - ecommerce-net
+
