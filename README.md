@@ -22,11 +22,6 @@ This project demonstrates:
 
 
 
-
-
-
-
-
 🏗️ Project Architecture
 
                 ┌──────────────┐
@@ -53,7 +48,6 @@ This project demonstrates:
 │ PostgreSQL   │
 │  Database    │
 └──────────────┘
-
 
 
 Key Design Decisions
@@ -90,6 +84,8 @@ ecommerce-docker/
 │   └── public/
 └── scripts/
     └── test-endpoints.sh
+
+    
 
 ⚙️ Step-by-Step Execution Guide
 1️⃣ Clone the Repository
