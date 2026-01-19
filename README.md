@@ -88,11 +88,13 @@ ecommerce-docker/
     
 
 ⚙️ Step-by-Step Execution Guide
+
 1️⃣ Clone the Repository
 git clone <your-repo-url>
 cd ecommerce-docker
 
 2️⃣ Environment Configuration
+
 Create a .env file in the root directory:
 POSTGRES_DB=ecommerce
 POSTGRES_USER=admin
@@ -109,19 +111,23 @@ API_GATEWAY_PORT=8080
 FRONTEND_PORT=3000
 
 3️⃣ Database Setup (PostgreSQL)
+
     • PostgreSQL is built using a custom Dockerfile
     • Database initialized using init.sql
     • Includes at least 10 sample products
     • Uses a named volume for persistence
+    
 Verification:
 docker volume ls
 
 4️⃣ Product Service
+
     • RESTful API built with N’ode.js or Python
     • Uses multi-stage Docker build
     • Runs as a non-root user
     • Connects to PostgreSQL
     • Implements Redis caching for GET requests
+    
 Available Endpoints
 GET    /api/products
 GET    /api/products/:id
@@ -129,11 +135,13 @@ GET    /api/products/category/:category
 POST   /api/products
 
 5️⃣ Redis Cache
+
     • Used to cache product queries
     • Persistent storage via named volume
     • Cache hit/miss logged in application logs
 
 6️⃣ API Gateway
+
     • Single entry point for all external requests
     • Routes requests to Product Service
     • Implements:
@@ -142,6 +150,7 @@ POST   /api/products
     • Prevents direct access to internal services
 
 7️⃣ Frontend
+
     • Simple HTML/CSS/JS interface
     • Displays:
         ◦ Product list
@@ -150,9 +159,11 @@ POST   /api/products
     • Served via containerized web server
 
 8️⃣ Build & Run the Application
+
 docker-compose up -d --build
 
 🧪 Testing & Validation
+
 Check Running Containers
 docker-compose ps
 Check Networks
@@ -161,6 +172,7 @@ Check Volumes
 docker volume ls
 
 API Testing (Using curl)
+
 curl http://localhost:8080/api/products
 curl http://localhost:8080/api/products/1
 curl http://localhost:8080/api/products/category/electronics
@@ -179,12 +191,14 @@ Monitor Resource Limits
 docker stats
 
 🔐 Security Best Practices
+
     • Containers run as non-root users
     • Internal services not exposed externally
     • Environment variables used instead of hardcoding secrets
     • Minimal base images used in multi-stage builds
 
 📸 Proof of Functionality
+
 Include screenshots or video showing:
     • docker-compose ps (all healthy)
     • API responses working
@@ -193,6 +207,7 @@ Include screenshots or video showing:
     • Data persistence after restart
 
 ✅ Deliverables Checklist
+
     • Custom Dockerfiles
     • Multi-stage builds
     • Docker Compose orchestration
