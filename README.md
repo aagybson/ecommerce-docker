@@ -1,4 +1,5 @@
 🛒 E-Commerce Micro-services Platform (Dockerized)
+
 📌 Project Overview
 This project implements a fully containerized e-commerce micro-services platform using Docker and Docker Compose.
 The goal is to demonstrate best practices for building, orchestrating, securing, and running a multi-container application with persistent data, service communication, caching, and health monitoring.
