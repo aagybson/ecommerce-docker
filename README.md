@@ -28,6 +28,7 @@ This project demonstrates:
 
 
 🏗️ Project Architecture
+
                 ┌──────────────┐
                 │   Frontend   │
                 │  (HTML/JS)   │
