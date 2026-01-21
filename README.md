@@ -50,6 +50,7 @@ This project demonstrates:
 └──────────────┘
 
 
+
 Key Design Decisions
     • API Gateway acts as the single entry point for security and routing
     • Redis caches product queries to reduce database load
